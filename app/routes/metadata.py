@@ -1,11 +1,11 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
-from app.services.text_service import extract_text_from_file
+from app.services.metadata_service import extract_metadata_from_file
 
 router = APIRouter(prefix="/extract", tags=["Extraction"])
 
-@router.post("/text")
-async def extract_text_from_pdf(file: UploadFile = File(...)):
+@router.post("/metadata")
+async def extract_metadata_from_pdf(file: UploadFile = File(...)):
     if not file.filename.endswith(".pdf"):
         raise HTTPException(status_code=400, detail="Only PDF files allowed")
     
-    return extract_text_from_file(await file.read(), file.filename)
+    return extract_metadata_from_file(await file.read(), file.filename)

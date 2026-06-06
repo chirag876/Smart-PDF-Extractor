@@ -22,3 +22,5 @@ Jo abhi missing hai:
 Yeh sab Sunday se karte hain — aaj servicing ke baad sirf applications.
 
 Ab jao — 9:30 hone wale hain.
+
+uvicorn app.main:app --reload    

@@ -16,3 +16,21 @@ def extract_text(file_path):
             if page_text:
                 text += page_text + "\n"
     return text.strip()
+
+def is_valid_pdf(file_path: str) -> bool:
+    try:
+        with pdfplumber.open(file_path) as pdf:
+            _ = len(pdf.pages)
+        return True
+    except Exception:
+        return False
+
+def is_password_protected(file_path: str) -> bool:
+    try:
+        with pdfplumber.open(file_path) as pdf:
+            _ = len(pdf.pages)
+        return False
+    except Exception as e:
+        if "password" in str(e).lower():
+            return True
+        return False
