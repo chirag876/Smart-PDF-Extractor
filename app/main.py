@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routes import metadata, text, tables
+from app.routes import metadata, text, tables, invoice
 
 app = FastAPI(
     title="SmartPDF",
@@ -10,6 +10,7 @@ app = FastAPI(
 app.include_router(text.router)
 app.include_router(tables.router)
 app.include_router(metadata.router)
+app.include_router(invoice.router)
 
 @app.get("/health")
 def health_check():
