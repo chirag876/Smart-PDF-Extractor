@@ -1,4 +1,3 @@
-bash
 # SmartPDF
 
 A production-ready **PDF data extraction API** built with FastAPI.  
