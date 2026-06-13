@@ -214,7 +214,7 @@ curl -X POST "http://localhost:8000/extract/invoice" \
 
 ## Roadmap
 
-- [ ] OCR support for scanned PDFs (`pytesseract`)
+- [x] OCR support for scanned PDFs (`pytesseract`)
 - [ ] Batch processing  multiple PDFs in one request
 - [ ] Rate limiting  per-IP request throttling
 - [ ] Structured logging  per-request audit trail
