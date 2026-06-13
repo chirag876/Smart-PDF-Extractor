@@ -17,7 +17,7 @@ Most PDF libraries give you raw output and leave error handling to you. SmartPDF
 - Extract **tables** as `.xlsx` (lattice → stream fallback via `camelot`)
 - Extract **PDF metadata**  title, author, pages, creator, creation date
 - Extract **structured invoice data**  hybrid coordinate + LLM-based extraction
-- **Scanned PDF detection**  returns clear error instead of empty output
+- **OCR support for scanned PDFs**  Gemini Vision extracts text from image-based PDFs automatically
 - **Password-protected PDF detection**  returns `400` with descriptive message
 - Automatic cleanup of uploaded files after processing
 
@@ -87,7 +87,7 @@ app/
 | Scenario | Status | Response |
 |---|---|---|
 | Digital PDF | `200` | `{ "text": "..." }` |
-| Scanned PDF | `200` | `{ "type": "scanned", "message": "Scanned PDF detected. OCR required.", "text": null }` |
+| Scanned PDF | `200` | `{ "type": "scanned", "_extraction_method": "ocr_gemini", "text": "..." }` |
 | Password-protected | `400` | `{ "detail": "PDF is password protected" }` |
 | Invalid file | `422` | Validation error |
 
@@ -214,7 +214,7 @@ curl -X POST "http://localhost:8000/extract/invoice" \
 
 ## Roadmap
 
-- [x] OCR support for scanned PDFs (`pytesseract`)
+- [x] OCR support for scanned PDFs (Gemini Vision via `pdf2image`)
 - [ ] Batch processing  multiple PDFs in one request
 - [ ] Rate limiting  per-IP request throttling
 - [ ] Structured logging  per-request audit trail
@@ -225,7 +225,9 @@ curl -X POST "http://localhost:8000/extract/invoice" \
 
 ## Known Limitations
 
-- Invoice extraction accuracy depends on PDF quality  scanned PDFs are not supported
+- Invoice extraction does not support scanned PDFs — use `/extract/text` for OCR on scanned files
+- OCR accuracy depends on scan quality and DPI — low-resolution scans may yield incomplete text
+- `POPPLER_PATH` must be set in `.env` on Windows for OCR to work
 - LLM fallback requires a valid `GEMINI_API_KEY` in `.env`  without it, coordinate extraction result is returned as-is
 
 ---
